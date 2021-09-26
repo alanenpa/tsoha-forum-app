@@ -20,10 +20,10 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
-    result = db.session.execute("SELECT text FROM test")
-    print("hello")
-    print(result.fetchall())
-    print("goodbye")
+    # result = db.session.execute("SELECT text FROM test")
+    # print("hello")
+    # print(result.fetchall())
+    # print("goodbye")
     return render_template("index.html")
 
 
