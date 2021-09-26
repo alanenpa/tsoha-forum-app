@@ -1,0 +1,21 @@
+<h1>Luo käyttäjätunnus</h1>
+<form action="/signup" method="POST">
+  Käyttäjätunnus:
+  <p>
+  {% if username %}
+  <input type="text" name="username" value={{ username }}>
+  {% else %}
+  <input type="text" name="username">
+  {% endif %}
+  <p>
+  Salasana:
+  <p>
+  <input type="text" name="password">
+  <p>
+  Salasana uudelleen:
+  <p>
+  <input type="text" name="password2">
+  <p>
+  <input type="submit" value="Luo">
+</form>
+<a href="/">Takaisin etusivulle</a>

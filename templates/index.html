@@ -1,0 +1,21 @@
+<title>Etusivu</title>
+<style>
+  a {
+    padding: 8px;
+  }
+</style>
+<ul style="list-style-type: none">
+  {% if session.username %}
+  <li style="display: inline"><a href="/signout">Kirjaudu ulos</a></li>
+  {% else %}
+  <li style="display: inline"><a href="/signin">Kirjaudu sisään</a></li>
+  {% endif %}
+  <li style="display: inline"><a href="/signup">Luo tunnus</a></li>
+</ul>
+<h1>Etusivu</h1>
+<p>Keskustelualueet:</p>
+<ul>
+  <li>Elokuvat</li>
+  <li>Musiikki</li>
+  <li>Ruoanlaitto</li>
+</ul>

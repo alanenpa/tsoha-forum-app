@@ -1,0 +1,17 @@
+<h1>Kirjaudu sisään</h1>
+<form action="/signin" method="POST">
+  Käyttäjätunnus:
+  <p>
+  {% if username %}
+  <input type="text" name="username" value={{ username }}>
+  {% else %}
+  <input type="text" name="username">
+  {% endif %}
+  <p>
+  Salasana:
+  <p>
+  <input type="text" name="password">
+  <p>
+  <input type="submit" value="Kirjaudu">
+</form>
+<a href="/">Takaisin etusivulle</a>
