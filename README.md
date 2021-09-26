@@ -2,6 +2,12 @@
 
 Sovelluksessa näkyy keskustelualueita, joista jokaisella on tietty aihe. Alueilla on keskusteluketjuja, jotka muodostuvat viesteistä. Jokainen käyttäjä on peruskäyttäjä tai ylläpitäjä.
 
+### Välipalautus 2
+
+Sovellus vahvasti vielä aluillaan. Tällä hetkellä käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen. Kirin seuraavilla viikoilla.
+Käynnissä täällä: https://radiant-woodland-47861.herokuapp.com/
+
+# 
 Sovelluksen ominaisuuksia:
 
 * Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
