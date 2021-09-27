@@ -30,6 +30,8 @@ def index():
 @app.route("/signup", methods=["GET", "POST"])
 def result():
     if request.method == "GET":
+        result = db.session.execute("SELECT * FROM users")
+        print(result.fetchall())
         return render_template("signup.html")
     if request.method == "POST":
         username = request.form["username"]
