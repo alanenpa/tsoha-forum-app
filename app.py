@@ -11,8 +11,11 @@ app = Flask(__name__)
 uri = os.getenv("DATABASE_URL")
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
-print('uri:', uri)
-app.config["SQLALCHEMY_DATABASE_URI"] = getenv(uri)
+print('here')
+print('URI 1:', uri)
+print('URI 2:', getenv("DATABASE_URL"))
+app.config["SQLALCHEMY_DATABASE_URI"] = uri
+# app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = getenv("SECRET_KEY")
 
@@ -25,6 +28,8 @@ def index():
     # print("hello")
     # print(result.fetchall())
     # print("goodbye")
+    result = db.session.execute("SELECT * FROM users")
+    print(result.fetchall())
     return render_template("index.html")
 
 
