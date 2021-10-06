@@ -13,9 +13,26 @@
   <li style="display: inline"><a href="/signup">Luo tunnus</a></li>
 </ul>
 <h1>Etusivu</h1>
+{% if session.username %}
+<form action="/" method="POST">
+  Lisää aihe:
+  <p>
+  <input type="text" name="topic">
+  <p>
+  <input type="submit" value="Lisää">
+</form>
+{% endif %}
 <p>Keskustelualueet:</p>
-<ul>
+<hr>
+{% for topic in topics %}
+<p>
+<a href="/topic/{{ topic.id }}"><b>{{ topic.topic }}</b></a><br>
+&nbsp; Viestiketjuja: {{threads[topic.topic]}}<br>
+&nbsp; Viestejä yhteensä: 999</p>
+<hr>
+{% endfor %}
+<!-- <ul>
   <li>Elokuvat</li>
   <li>Musiikki</li>
   <li>Ruoanlaitto</li>
-</ul>
+</ul> -->
