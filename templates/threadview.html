@@ -1,0 +1,22 @@
+<h2>Keskustelu</h2>
+<h3>Otsikko: {{ thread.header }}</h3>
+<p>{{ thread.init_msg }}</p>
+<i>Aloittaja: </i>{{ op.username }} <br>
+<p>
+{% if session.username %}
+<hr>
+<form action="/thread/{{ thread.id }}" method="POST">
+  <p>
+  <textarea name="content" rows="6" cols="50"></textarea>
+  <p>
+  <input type="submit" value="Vastaa">
+</form>
+{% endif %}
+<b>Vastaukset:</b>
+<hr>
+{% for message in messages %}
+  <p>{{ message.content }}</p>
+  <p>
+  <p><i>Lähettäjä: </i>{{ message.username }} <br> <i>Lähetetty:</i> {{ message.sent_at.strftime("%Y-%m-%d %H:%M:%S") }}</p></p>
+<hr>
+{% endfor %}

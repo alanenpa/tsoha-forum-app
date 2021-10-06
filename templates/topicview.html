@@ -1,0 +1,26 @@
+<h2>Viestiketjut</h2>
+{% if session.username %}
+<form action="/topic/{{ topic_id }}" method="POST">
+  <h3>Uusi ketju:</h3>
+    Otsikko:
+  <p>
+  <input type="text" name="header">
+  <p>
+    Aloitusviesti:
+  <p>
+  <textarea name="init_msg" rows="6" cols="50"></textarea>
+  <p>
+  <input type="submit" value="Lisää">
+</form>
+{% endif %}
+<hr>
+{% for thread in threads %}
+  <a href="/thread/{{ thread.id }}"><b style="font-size:18px;">{{ thread.header }}</b> <br></a>
+  <p>{{ thread.id, thread.username, thread.user_id }}</p>
+  <p>{{ thread.init_msg }}</p>
+  <p>
+    <i>Viestejä:</i> 999 <br>
+    <i>Aloittaja: </i>{{ thread.username }} <br>
+    <i>Luotu:</i> {{ thread.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+<hr>
+{% endfor %}
