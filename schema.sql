@@ -1,3 +1,7 @@
+DROP TABLE messages CASCADE;
+DROP TABLE threads CASCADE;
+DROP TABLE topics CASCADE;
+DROP TABLE users CASCADE;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -17,13 +21,14 @@ CREATE TABLE threads (
     user_id INTEGER REFERENCES users,
     header TEXT,
     init_msg TEXT,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP
 );
 
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
+    topic_id INTEGER REFERENCES topics,
     thread_id INTEGER REFERENCES threads,
     user_id INTEGER REFERENCES users,
     content TEXT,
-    sent_at TIMESTAMP,
+    sent_at TIMESTAMP
 );
