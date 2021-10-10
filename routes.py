@@ -11,7 +11,6 @@ def index():
         topic = request.form["topic"]
         topics.create_topic(topic)
     adminrights = users.is_admin()
-    print("ADMINRIGHTS", adminrights)
     topiclist = topics.get_all()
     threadlist = {}
     messagelist = {}
@@ -56,7 +55,8 @@ def thread(topic_id, thread_id):
             return render_template("error.html", message="Viestin lähetys epäonnistui")
     messagelist = messages.get_all_by_thread_with_usernames(thread_id)
     thread = threads.get_by_id(thread_id)
-    return render_template("threadview.html", topic_id=topic_id, messages=messagelist, thread=thread)
+    op = users.get_by_id(thread.user_id)
+    return render_template("threadview.html", topic_id=topic_id, messages=messagelist, thread=thread, op=op)
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -83,8 +83,6 @@ def signin():
         username = request.form["username"]
         password = request.form["password"]
         user = users.sign_in(username, password)
-        print(username, password)
-        print(user)
         if user:
             return redirect("/")
         else:
