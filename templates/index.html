@@ -18,9 +18,14 @@
 <a href="/topic/{{ topic.id }}"><b>{{ topic.topic }}</b></a><br>
 Viestiketjuja: {{threads[topic.topic]}}<br>
 Viestejä yhteensä (sis. aloitusviestit): {{messages[topic.topic]}}<br>
+{% if latestmessages[topic.topic] %}
 <br>
 <i>Viimeisin vastaus:</i> {{latestmessages[topic.topic].content}}</br>
 <i>Lähettäjä:</i> {{latestmessages[topic.topic].username}}, {{latestmessages[topic.topic].sent_at.strftime("%d.%m.%Y %H:%M:%S")}} <br>
+{% else %}
+<br>
+<i>Ei vielä vastauksia tällä alueella, ole ensimmäinen!</i>
+{% endif %}
 </p>
 <hr>
 {% endfor %}

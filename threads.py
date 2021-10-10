@@ -32,6 +32,6 @@ def get_all_by_topic_with_usernames(topic_id):
     return result.fetchall()
 
 def get_by_id(thread_id):
-    sql = "SELECT * FROM threads T, users U WHERE T.id=:id AND T.user_id=U.id"
+    sql = "SELECT * FROM threads WHERE id=:id"
     result = db.session.execute(sql, {"id": thread_id})
     return result.fetchone()
