@@ -28,4 +28,4 @@ Käynnissä täällä: https://radiant-woodland-47861.herokuapp.com/
 * Admin-oikeuksilla varustettu käyttäjä voi luoda myös keskustelualueita etusivulla
 * Etusivulta voi siirtyä keskustelualueille ja keskustelualueen näkymässä yksittäisiin ketjuihin
 * Yksittäisen keskustelualueen näkymässä käyttäjä voi luoda uuden viestiketjun otsikolla ja aloitusviestillä varustettuna
-* Viestiketjunäkymässä käyttäjä voi vastata ketjuun lomakkeella 
+* Viestiketjunäkymässä käyttäjä voi vastata ketjuun
