@@ -1,5 +1,8 @@
+{% extends "layout.html" %}
+{% block title %}Aihenäkymä{% endblock %}
+{% block content %}
 <h2>Viestiketjut</h2>
-{% if session.username %}
+{% if session.user_id %}
 <form action="/topic/{{ topic_id }}" method="POST">
   <h3>Uusi ketju:</h3>
     Otsikko:
@@ -15,12 +18,12 @@
 {% endif %}
 <hr>
 {% for thread in threads %}
-  <a href="/thread/{{ thread.id }}"><b style="font-size:18px;">{{ thread.header }}</b> <br></a>
-  <p>{{ thread.id, thread.username, thread.user_id }}</p>
+  <a href="/topic/{{ topic_id }}/thread/{{ thread_ids[loop.index0].id }}"><b style="font-size:18px;">{{ thread.header }}</b> <br></a>
   <p>{{ thread.init_msg }}</p>
   <p>
-    <i>Viestejä:</i> 999 <br>
-    <i>Aloittaja: </i>{{ thread.username }} <br>
-    <i>Luotu:</i> {{ thread.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+  <i>Vastauksia:</i> {{ msgcount[loop.index0] }} <br>
+  <i>Aloittaja: </i>{{ thread.username }} <br>
+  <i>Luotu:</i> {{ thread.created_at.strftime("%d.%m.%Y %H:%M:%S") }}</p>
 <hr>
 {% endfor %}
+{% endblock %}
