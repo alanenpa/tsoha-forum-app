@@ -1,19 +1,8 @@
-<title>Etusivu</title>
-<style>
-  a {
-    padding: 8px;
-  }
-</style>
-<ul style="list-style-type: none">
-  {% if session.username %}
-  <li style="display: inline"><a href="/signout">Kirjaudu ulos</a></li>
-  {% else %}
-  <li style="display: inline"><a href="/signin">Kirjaudu sisään</a></li>
-  {% endif %}
-  <li style="display: inline"><a href="/signup">Luo tunnus</a></li>
-</ul>
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
 <h1>Etusivu</h1>
-{% if session.username %}
+{% if adminrights is true %}
 <form action="/" method="POST">
   Lisää aihe:
   <p>
@@ -25,14 +14,14 @@
 <p>Keskustelualueet:</p>
 <hr>
 {% for topic in topics %}
-<p>
+<p style="padding-left:8px;padding-right:8px;">
 <a href="/topic/{{ topic.id }}"><b>{{ topic.topic }}</b></a><br>
-&nbsp; Viestiketjuja: {{threads[topic.topic]}}<br>
-&nbsp; Viestejä yhteensä: 999</p>
+Viestiketjuja: {{threads[topic.topic]}}<br>
+Viestejä yhteensä (sis. aloitusviestit): {{messages[topic.topic]}}<br>
+<br>
+<i>Viimeisin vastaus:</i> {{latestmessages[topic.topic].content}}</br>
+<i>Lähettäjä:</i> {{latestmessages[topic.topic].username}}, {{latestmessages[topic.topic].sent_at.strftime("%d.%m.%Y %H:%M:%S")}} <br>
+</p>
 <hr>
 {% endfor %}
-<!-- <ul>
-  <li>Elokuvat</li>
-  <li>Musiikki</li>
-  <li>Ruoanlaitto</li>
-</ul> -->
+{% endblock %}
