@@ -1,11 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Ketjunäkymä{% endblock %}
+{% block content %}
 <h2>Keskustelu</h2>
 <h3>Otsikko: {{ thread.header }}</h3>
 <p>{{ thread.init_msg }}</p>
-<i>Aloittaja: </i>{{ op.username }} <br>
+<i>Aloittaja: </i>{{ thread.username }} <br>
 <p>
-{% if session.username %}
+{% if session.user_id %}
 <hr>
-<form action="/thread/{{ thread.id }}" method="POST">
+<form action="/topic/{{ topic_id }}/thread/{{ thread.id }}" method="POST">
   <p>
   <textarea name="content" rows="6" cols="50"></textarea>
   <p>
@@ -17,6 +20,7 @@
 {% for message in messages %}
   <p>{{ message.content }}</p>
   <p>
-  <p><i>Lähettäjä: </i>{{ message.username }} <br> <i>Lähetetty:</i> {{ message.sent_at.strftime("%Y-%m-%d %H:%M:%S") }}</p></p>
+  <p><i>Lähettäjä: </i>{{ message.username }} <br> <i>Lähetetty:</i> {{ message.sent_at.strftime("%d.%m.%Y %H:%M:%S") }}</p></p>
 <hr>
 {% endfor %}
+{% endblock %}
