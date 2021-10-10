@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block title %}Sisäänkirjautuminen{% endblock %}
+{% block content %}
 <h1>Kirjaudu sisään</h1>
 <form action="/signin" method="POST">
   Käyttäjätunnus:
@@ -10,8 +13,8 @@
   <p>
   Salasana:
   <p>
-  <input type="text" name="password">
+  <input type="password" name="password">
   <p>
   <input type="submit" value="Kirjaudu">
 </form>
-<a href="/">Takaisin etusivulle</a>
+{% endblock %}

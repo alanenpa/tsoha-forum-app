@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block title %}Käyttäjätunnuksen luonti{% endblock %}
+{% block content %}
 <h1>Luo käyttäjätunnus</h1>
 <form action="/signup" method="POST">
   Käyttäjätunnus:
@@ -10,12 +13,18 @@
   <p>
   Salasana:
   <p>
-  <input type="text" name="password">
+  <input type="password" name="password">
   <p>
   Salasana uudelleen:
   <p>
-  <input type="text" name="password2">
+  <input type="password" name="password2">
   <p>
-  <input type="submit" value="Luo">
+  Admin:
+  <p>
+  <input type="radio" name="admin" value="true"> kyllä
+  <input type="radio" name="admin" value="false" checked> ei
+  <p>
+    <input type="submit" value="Luo">
+  <p>
 </form>
-<a href="/">Takaisin etusivulle</a>
+{% endblock %}
