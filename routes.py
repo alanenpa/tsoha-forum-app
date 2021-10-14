@@ -12,20 +12,14 @@ def index():
         topics.create_topic(topic)
     adminrights = users.is_admin()
     topiclist = topics.get_all()
-    threadlist = {}
-    messagelist = {}
-    latestmessages = {}
-    for topic in topiclist:
-        threadcount = threads.count_by_topic(topic.id)
-        msgcount = messages.count_by_topic(topic.id)
-        threadlist[topic.topic] = threadcount
-        messagelist[topic.topic] = msgcount + threadcount
-        latestmessages[topic.topic] = messages.get_latest_message_by_topic(topic.id)
+    threadcounts = threads.get_all_threadcounts_by_topic()
+    messagecounts = messages.get_all_messagecounts_by_topic()
+    latestmessages = messages.get_all_latest_messages_by_topic()
     return render_template(
         "index.html",
         topics=topiclist,
-        threads=threadlist,
-        messages=messagelist,
+        threadcounts=threadcounts,
+        messagecounts=messagecounts,
         latestmessages=latestmessages,
         adminrights=adminrights
     )

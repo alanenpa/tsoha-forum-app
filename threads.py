@@ -1,10 +1,18 @@
 from db import db
 import users
+import topics
 
 def count_by_topic(topic_id):
     sql = "SELECT COUNT(*) FROM threads WHERE topic_id=:id"
     result = db.session.execute(sql, {"id": topic_id})
     return result.fetchone()[0]
+
+def get_all_threadcounts_by_topic():
+    topiclist = topics.get_all()
+    dict = {}
+    for topic in topiclist:
+        dict[topic.topic] = count_by_topic(topic.id)
+    return dict
 
 def create_thread(topic_id, header, init_msg):
     user_id = users.user_id()

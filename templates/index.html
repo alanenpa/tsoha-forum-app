@@ -17,8 +17,8 @@
 {% for topic in topics %}
 <p style="padding-left:8px;padding-right:8px;">
 <a href="/topic/{{ topic.id }}"><b>{{ topic.topic }}</b></a><br>
-Viestiketjuja: {{threads[topic.topic]}}<br>
-Viestejä yhteensä (sis. aloitusviestit): {{messages[topic.topic]}}<br>
+Viestiketjuja: {{threadcounts[topic.topic]}}<br>
+Viestejä yhteensä (sis. aloitusviestit): {{messagecounts[topic.topic]}}<br>
 {% if latestmessages[topic.topic] %}
 <br>
 <i>Viimeisin vastaus:</i> {{latestmessages[topic.topic].content}}</br>
