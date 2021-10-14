@@ -25,6 +25,7 @@
   <input type="radio" name="admin" value="false" checked> ei
   <p>
     <input type="submit" value="Luo">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
   <p>
 </form>
 {% endblock %}

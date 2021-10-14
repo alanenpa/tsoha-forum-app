@@ -13,6 +13,7 @@
   <textarea name="content" rows="6" cols="50"></textarea>
   <p>
   <input type="submit" value="Vastaa">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 </form>
 {% endif %}
 <b>Vastaukset:</b>
