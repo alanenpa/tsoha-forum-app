@@ -33,12 +33,7 @@ def topic(id):
             return render_template("error.html", message="Ketjun luonti epäonnistui")
     threadlist_with_usernames = threads.get_all_by_topic_with_usernames(id)
     threadlist = threads.get_all_by_topic(id)
-    msgcount = {}
-    counter = 0
-    for thread in threadlist:
-        msgcount[counter] = messages.count_by_thread(thread.id)
-        counter += 1
-        # Refaktoroi?
+    msgcount = messages.get_all_messagecounts_by_thread(id)
     return render_template("topicview.html", topic_id=id, threads=threadlist_with_usernames, thread_ids=threadlist, msgcount=msgcount)
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>", methods=["GET", "POST"])

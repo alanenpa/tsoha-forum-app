@@ -20,6 +20,13 @@ def count_by_thread(thread_id):
     result = db.session.execute(sql, {"id": thread_id})
     return result.fetchone()[0]
 
+def get_all_messagecounts_by_thread(topic_id):
+    threadlist = threads.get_all_by_topic(topic_id)
+    list = []
+    for thread in threadlist:
+        list.append(count_by_thread(thread.id))
+    return list
+
 def get_all_by_thread_with_usernames(thread_id):
     sql = "SELECT * FROM messages M, users U WHERE thread_id=:id AND M.user_id=U.id ORDER BY sent_at"
     result = db.session.execute(sql, {"id": thread_id})
