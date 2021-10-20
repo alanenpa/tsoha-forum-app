@@ -48,7 +48,8 @@ def post_message(topic_id, thread_id, content):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = "INSERT INTO messages (topic_id, thread_id, user_id, content, sent_at) VALUES (:topic_id, :thread_id, :user_id, :content, NOW())"
+    sql = "INSERT INTO messages (topic_id, thread_id, user_id, content, sent_at)" \
+          "VALUES (:topic_id, :thread_id, :user_id, :content, NOW())"
     db.session.execute(sql, {
         "topic_id": topic_id,
         "thread_id": thread_id,

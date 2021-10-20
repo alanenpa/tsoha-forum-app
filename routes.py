@@ -1,5 +1,5 @@
-from app import app
 from flask import redirect, render_template, request
+from app import app
 import users
 import topics
 import threads
@@ -40,7 +40,13 @@ def topic(id):
     threadlist_with_usernames = threads.get_all_by_topic_with_usernames(id)
     threadlist = threads.get_all_by_topic(id)
     msgcount = messages.get_all_messagecounts_by_thread(id)
-    return render_template("topicview.html", topic_id=id, threads=threadlist_with_usernames, thread_ids=threadlist, msgcount=msgcount)
+    return render_template(
+        "topicview.html",
+        topic_id=id,
+        threads=threadlist_with_usernames,
+        thread_ids=threadlist,
+        msgcount=msgcount
+    )
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>", methods=["GET", "POST"])
 def thread(topic_id, thread_id):
