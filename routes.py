@@ -9,6 +9,8 @@ import messages
 def index():
     if request.method == "POST":
         topic = request.form["topic"]
+        if len(topic) < 3 or len(topic) > 50:
+            return render_template("error.html", message="Aiheen täytyy olla 3-50 merkkiä")
         topics.create_topic(topic)
     adminrights = users.is_admin()
     topiclist = topics.get_all()
@@ -28,7 +30,11 @@ def index():
 def topic(id):
     if request.method == "POST":
         header = request.form["header"]
+        if len(header) < 3 or len(header) > 300:
+            return render_template("error.html", message="Otsikon täytyy olla 3-300 merkkiä")
         init_msg = request.form["init_msg"]
+        if len(init_msg) > 5000:
+            return render_template("error.html", message="Aloitusviesti on liian pitkä (>5000 merkkiä)")
         if not threads.create_thread(id, header, init_msg):
             return render_template("error.html", message="Ketjun luonti epäonnistui")
     threadlist_with_usernames = threads.get_all_by_topic_with_usernames(id)
@@ -40,7 +46,9 @@ def topic(id):
 def thread(topic_id, thread_id):
     if request.method == "POST":
         content = request.form["content"]
-        if not messages.post_message(topic_id, thread_id, content):
+        if len(content) < 1 or len(content) > 5000:
+            return render_template("error.html", message="Viestin täytyy olla 1-5000 merkkiä")
+        elif not messages.post_message(topic_id, thread_id, content):
             return render_template("error.html", message="Viestin lähetys epäonnistui")
     messagelist = messages.get_all_by_thread_with_usernames(thread_id)
     thread = threads.get_by_id(thread_id)
@@ -53,7 +61,11 @@ def signup():
         return render_template("signup.html")
     if request.method == "POST":
         username = request.form["username"]
+        if len(username) < 3 or len(username) > 20:
+            return render_template("error.html", message="Käyttäjätunnuksen täytyy olla 3-20 merkkiä")
         password = request.form["password"]
+        if len(username) < 10 or len(username) > 40:
+            return render_template("error.html", message="Salasanan täytyy olla 10-40 merkkiä")
         password2 = request.form["password2"]
         admin = request.form["admin"]
         if password != password2:
