@@ -37,14 +37,12 @@ def topic(id):
             return render_template("error.html", message="Aloitusviesti on liian pitkä (>5000 merkkiä)")
         if not threads.create_thread(id, header, init_msg):
             return render_template("error.html", message="Ketjun luonti epäonnistui")
-    threadlist_with_usernames = threads.get_all_by_topic_with_usernames(id)
     threadlist = threads.get_all_by_topic(id)
     msgcount = messages.get_all_messagecounts_by_thread(id)
     return render_template(
         "topicview.html",
         topic_id=id,
-        threads=threadlist_with_usernames,
-        thread_ids=threadlist,
+        threads=threadlist,
         msgcount=msgcount
     )
 
