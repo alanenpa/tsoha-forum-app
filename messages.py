@@ -44,6 +44,11 @@ def get_all_latest_messages_by_topic():
         dict[topic.topic] = get_latest_message_by_topic(topic.id)
     return dict
 
+def search_by_keyword(keyword):
+    sql = "SELECT * FROM messages M, users U WHERE M.content LIKE :keyword AND M.user_id=U.id"
+    result = db.session.execute(sql, {"keyword": "%" + keyword + "%"})
+    return result.fetchall()
+
 def post_message(topic_id, thread_id, content):
     user_id = users.user_id()
     if user_id == 0:

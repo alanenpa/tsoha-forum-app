@@ -99,3 +99,15 @@ def signin():
 def signout():
     users.sign_out()
     return redirect("/")
+
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    if request.method == "GET":
+        return render_template("search.html")
+    if request.method == "POST":
+        keyword = request.form["keyword"]
+        if len(keyword) < 1:
+            return render_template("error.html", message="Anna hakusana")
+        messagelist = messages.search_by_keyword(keyword)
+        init_messagelist = threads.search_by_keyword(keyword)
+        return render_template("search.html", messages=messagelist, init_messages=init_messagelist)

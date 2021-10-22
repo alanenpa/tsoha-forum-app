@@ -39,6 +39,11 @@ def get_all_by_topic_with_usernames(topic_id):
     result = db.session.execute(sql, {"id": topic_id})
     return result.fetchall()
 
+def search_by_keyword(keyword):
+    sql = "SELECT T.id, T.topic_id, T.init_msg, T.created_at, U.username FROM threads T, users U WHERE T.init_msg LIKE :keyword AND T.user_id=U.id"
+    result = db.session.execute(sql, {"keyword": "%" + keyword + "%"})
+    return result.fetchall()
+
 def get_by_id(thread_id):
     sql = "SELECT * FROM threads WHERE id=:id"
     result = db.session.execute(sql, {"id": thread_id})
