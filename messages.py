@@ -4,7 +4,7 @@ import topics
 import threads
 
 def count_by_topic(topic_id):
-    sql = "SELECT COUNT(*) FROM messages WHERE topic_id=:id"
+    sql = "SELECT COUNT(*) FROM messages WHERE topic_id=:id AND visible=TRUE"
     result = db.session.execute(sql, {"id": topic_id})
     return result.fetchone()[0]
 
@@ -16,7 +16,7 @@ def get_all_messagecounts_by_topic():
     return dict
 
 def count_by_thread(thread_id):
-    sql = "SELECT COUNT(*) FROM messages WHERE thread_id=:id"
+    sql = "SELECT COUNT(*) FROM messages WHERE thread_id=:id AND visible=TRUE"
     result = db.session.execute(sql, {"id": thread_id})
     return result.fetchone()[0]
 
@@ -28,13 +28,13 @@ def get_all_messagecounts_by_thread(topic_id):
     return list
 
 def get_all_by_thread_with_usernames(thread_id):
-    sql = "SELECT M.id, M.content, M.sent_at, M.visible, U.id AS user_id, U.username FROM messages M, users U " \
-          "WHERE thread_id=:id AND M.user_id=U.id ORDER BY sent_at"
+    sql = "SELECT M.id, M.content, M.sent_at, U.id AS user_id, U.username FROM messages M, users U " \
+          "WHERE thread_id=:id AND M.visible=TRUE AND M.user_id=U.id ORDER BY sent_at"
     result = db.session.execute(sql, {"id": thread_id})
     return result.fetchall()
 
 def get_latest_message_by_topic(topic_id):
-    sql = "SELECT * FROM messages M, users U WHERE M.topic_id=:id AND M.user_id=U.id ORDER BY M.sent_at DESC"
+    sql = "SELECT * FROM messages M, users U WHERE M.topic_id=:id AND M.visible=TRUE AND M.user_id=U.id ORDER BY M.sent_at DESC"
     result = db.session.execute(sql, {"id": topic_id})
     return result.fetchone()
 
@@ -46,7 +46,7 @@ def get_all_latest_messages_by_topic():
     return dict
 
 def search_by_keyword(keyword):
-    sql = "SELECT * FROM messages M, users U WHERE M.content LIKE :keyword AND M.user_id=U.id"
+    sql = "SELECT * FROM messages M, users U WHERE M.content LIKE :keyword AND M.visible=TRUE AND M.user_id=U.id"
     result = db.session.execute(sql, {"keyword": "%" + keyword + "%"})
     return result.fetchall()
 
