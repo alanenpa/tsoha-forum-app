@@ -19,18 +19,16 @@
 <b>Vastaukset:</b>
 <hr>
 {% for message in messages %}
-  {% if message.visible %}
-    <p>{{ message.content }}</p>
-    <p>
-    <p><i>Lähettäjä: </i>{{ message.username }} <br> <i>Lähetetty:</i> {{ message.sent_at.strftime("%d.%m.%Y %H:%M:%S") }}</p></p>
-    <p>
-    {% if session.user_id == message.user_id %}
-      <form action="/topic/{{ topic_id }}/thread/{{ thread.id }}/message/{{ message.id }}" method="POST">
-        <input type="submit" value="Poista" />
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-      </form>
-    {% endif %}
-    <hr>
+  <p>{{ message.content }}</p>
+  <p>
+  <p><i>Lähettäjä: </i>{{ message.username }} <br> <i>Lähetetty:</i> {{ message.sent_at.strftime("%d.%m.%Y %H:%M:%S") }}</p></p>
+  <p>
+  {% if session.user_id == message.user_id %}
+    <form action="/topic/{{ topic_id }}/thread/{{ thread.id }}/message/{{ message.id }}/delete" method="POST">
+      <input type="submit" value="Poista" />
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    </form>
   {% endif %}
+  <hr>
 {% endfor %}
 {% endblock %}
