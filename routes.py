@@ -65,9 +65,8 @@ def thread(topic_id, thread_id):
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>/delete", methods=["POST"])
 def delete_thread(topic_id, thread_id):
-    sql = "UPDATE threads SET visible=FALSE WHERE id=:id"
-    db.session.execute(sql, {"id": thread_id})
-    db.session.commit()
+    threads.delete_thread(thread_id)
+    messages.delete_by_thread(thread_id)
     return redirect(f"/topic/{topic_id}")
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>/message/<int:message_id>/delete", methods=["POST"])

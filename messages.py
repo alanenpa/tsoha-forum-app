@@ -69,3 +69,8 @@ def delete_message(message_id):
     sql = "UPDATE messages SET visible=FALSE WHERE id=:id"
     db.session.execute(sql, {"id": message_id})
     db.session.commit()
+
+def delete_by_thread(thread_id):
+    sql = "UPDATE messages SET visible=FALSE WHERE thread_id=:id"
+    db.session.execute(sql, {"id": thread_id})
+    db.session.commit()
