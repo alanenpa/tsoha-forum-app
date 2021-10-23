@@ -4,3 +4,4 @@ __pycache__/
 .flaskenv
 .env
 .vscode
+delete_all.sql
