@@ -11,14 +11,14 @@ Käynnissä täällä: https://radiant-woodland-47861.herokuapp.com/
 * Käyttäjä voi luoda alueelle uuden ketjun antamalla ketjun otsikon ja aloitusviestin sisällön.
 * Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ketjuun.
 * Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
+* Syötteiden koon rajaaminen.
+* Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
 
 ### Vielä tulossa:
 
 * Käyttäjä voi muokata luomansa ketjun otsikkoa sekä lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa ketjun tai viestin.
-* Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
-* Ylläpitäjän oikeuksilla varustettujen käyttäjien luonnin rajoittaminen
-* Syötteiden koon rajaaminen
-* Ulkoasun parantelu
+* Ylläpitäjän oikeuksilla varustettujen käyttäjien luonnin rajoittaminen.
+* Ulkoasun parantelu.
 
 ### Testaaminen Herokussa:
 
