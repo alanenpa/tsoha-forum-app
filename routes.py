@@ -49,18 +49,28 @@ def topic(id):
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>", methods=["GET", "POST"])
 def thread(topic_id, thread_id):
-    if request.method == "POST":
-        content = request.form["content"]
-        if len(content) < 1 or len(content) > 5000:
-            return render_template("error.html", message="Viestin täytyy olla 1-5000 merkkiä")
-        elif not messages.post_message(topic_id, thread_id, content):
-            return render_template("error.html", message="Viestin lähetys epäonnistui")
-    messagelist = messages.get_all_by_thread_with_usernames(thread_id)
-    thread = threads.get_by_id(thread_id)
-    op = users.get_by_id(thread.user_id)
-    return render_template("threadview.html", topic_id=topic_id, messages=messagelist, thread=thread, op=op)
+    if not threads.is_visible(thread_id):
+        return render_template("error.html", message="Tämä ketju on poistettu")
+    else:
+        if request.method == "POST":
+            content = request.form["content"]
+            if len(content) < 1 or len(content) > 5000:
+                return render_template("error.html", message="Viestin täytyy olla 1-5000 merkkiä")
+            elif not messages.post_message(topic_id, thread_id, content):
+                return render_template("error.html", message="Viestin lähetys epäonnistui")
+        messagelist = messages.get_all_by_thread_with_usernames(thread_id)
+        thread = threads.get_by_id(thread_id)
+        op = users.get_by_id(thread.user_id)
+        return render_template("threadview.html", topic_id=topic_id, messages=messagelist, thread=thread, op=op)
 
-@app.route("/topic/<int:topic_id>/thread/<int:thread_id>/message/<int:message_id>", methods=["POST"])
+@app.route("/topic/<int:topic_id>/thread/<int:thread_id>/delete", methods=["POST"])
+def delete_thread(topic_id, thread_id):
+    sql = "UPDATE threads SET visible=FALSE WHERE id=:id"
+    db.session.execute(sql, {"id": thread_id})
+    db.session.commit()
+    return redirect(f"/topic/{topic_id}")
+
+@app.route("/topic/<int:topic_id>/thread/<int:thread_id>/message/<int:message_id>/delete", methods=["POST"])
 def delete_message(topic_id, thread_id, message_id):
     messages.delete_message(message_id)
     return redirect(f"/topic/{topic_id}/thread/{thread_id}")

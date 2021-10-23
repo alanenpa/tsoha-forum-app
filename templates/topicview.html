@@ -25,6 +25,13 @@
   <i>Vastauksia:</i> {{ msgcount[loop.index0] }} <br>
   <i>Aloittaja: </i>{{ thread.username }} <br>
   <i>Luotu:</i> {{ thread.created_at.strftime("%d.%m.%Y %H:%M:%S") }}</p>
+  <p>
+    {% if session.user_id == thread.user_id %}
+      <form action="/topic/{{ topic_id }}/thread/{{ thread.id }}/delete" method="POST">
+        <input type="submit" value="Poista" />
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      </form>
+    {% endif %}
 <hr>
 {% endfor %}
 {% endblock %}
