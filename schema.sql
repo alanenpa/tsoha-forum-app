@@ -17,7 +17,8 @@ CREATE TABLE threads (
     user_id INTEGER REFERENCES users,
     header TEXT,
     init_msg TEXT,
-    created_at TIMESTAMP
+    created_at TIMESTAMP,
+    visible BOOLEAN
 );
 
 CREATE TABLE messages (
@@ -26,5 +27,6 @@ CREATE TABLE messages (
     thread_id INTEGER REFERENCES threads,
     user_id INTEGER REFERENCES users,
     content TEXT,
-    sent_at TIMESTAMP
+    sent_at TIMESTAMP,
+    visible BOOLEAN
 );

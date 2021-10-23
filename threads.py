@@ -18,8 +18,8 @@ def create_thread(topic_id, header, init_msg):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = "INSERT INTO threads (topic_id, user_id, header, init_msg, created_at) " \
-          "VALUES (:topic_id, :user_id, :header, :init_msg, NOW())"
+    sql = "INSERT INTO threads (topic_id, user_id, header, init_msg, created_at, visible) " \
+          "VALUES (:topic_id, :user_id, :header, :init_msg, NOW(), TRUE)"
     db.session.execute(sql, {
         "topic_id": topic_id,
         "user_id": user_id,
@@ -31,7 +31,7 @@ def create_thread(topic_id, header, init_msg):
 
 def get_all_by_topic(topic_id):
     sql = "SELECT T.id, T.header, T.init_msg, T.created_at, U.username " \
-          "FROM threads T, users U WHERE topic_id=:id AND T.user_id=U.id ORDER BY T.id"
+          "FROM threads T, users U WHERE topic_id=:id AND T.user_id=U.id ORDER BY T.created_at"
     result = db.session.execute(sql, {"id": topic_id})
     return result.fetchall()
 

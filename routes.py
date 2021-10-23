@@ -4,6 +4,7 @@ import users
 import topics
 import threads
 import messages
+from db import db
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -59,6 +60,11 @@ def thread(topic_id, thread_id):
     op = users.get_by_id(thread.user_id)
     return render_template("threadview.html", topic_id=topic_id, messages=messagelist, thread=thread, op=op)
 
+@app.route("/topic/<int:topic_id>/thread/<int:thread_id>/message/<int:message_id>", methods=["POST"])
+def delete_message(topic_id, thread_id, message_id):
+    messages.delete_message(message_id)
+    return redirect(f"/topic/{topic_id}/thread/{thread_id}")
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "GET":
@@ -68,7 +74,7 @@ def signup():
         if len(username) < 3 or len(username) > 20:
             return render_template("error.html", message="Käyttäjätunnuksen täytyy olla 3-20 merkkiä")
         password = request.form["password"]
-        if len(username) < 10 or len(username) > 40:
+        if len(password) < 10 or len(password) > 40:
             return render_template("error.html", message="Salasanan täytyy olla 10-40 merkkiä")
         password2 = request.form["password2"]
         admin = request.form["admin"]

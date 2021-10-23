@@ -28,7 +28,8 @@ def get_all_messagecounts_by_thread(topic_id):
     return list
 
 def get_all_by_thread_with_usernames(thread_id):
-    sql = "SELECT * FROM messages M, users U WHERE thread_id=:id AND M.user_id=U.id ORDER BY sent_at"
+    sql = "SELECT M.id, M.content, M.sent_at, M.visible, U.id AS user_id, U.username FROM messages M, users U " \
+          "WHERE thread_id=:id AND M.user_id=U.id ORDER BY sent_at"
     result = db.session.execute(sql, {"id": thread_id})
     return result.fetchall()
 
@@ -53,8 +54,8 @@ def post_message(topic_id, thread_id, content):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = "INSERT INTO messages (topic_id, thread_id, user_id, content, sent_at)" \
-          "VALUES (:topic_id, :thread_id, :user_id, :content, NOW())"
+    sql = "INSERT INTO messages (topic_id, thread_id, user_id, content, sent_at, visible)" \
+          "VALUES (:topic_id, :thread_id, :user_id, :content, NOW(), TRUE)"
     db.session.execute(sql, {
         "topic_id": topic_id,
         "thread_id": thread_id,
@@ -63,3 +64,8 @@ def post_message(topic_id, thread_id, content):
     })
     db.session.commit()
     return True
+
+def delete_message(message_id):
+    sql = "UPDATE messages SET visible=FALSE WHERE id=:id"
+    db.session.execute(sql, {"id": message_id})
+    db.session.commit()
