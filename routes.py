@@ -36,7 +36,7 @@ def topic(id):
         init_msg = request.form["init_msg"]
         if len(init_msg) > 5000:
             return render_template("error.html", message="Aloitusviesti on liian pitkä (>5000 merkkiä)")
-        if not threads.create_thread(id, header, init_msg):
+        if not threads.create(id, header, init_msg):
             return render_template("error.html", message="Ketjun luonti epäonnistui")
     threadlist = threads.get_all_by_topic(id)
     msgcount = messages.get_all_messagecounts_by_thread(id)
@@ -56,7 +56,7 @@ def thread(topic_id, thread_id):
             content = request.form["content"]
             if len(content) < 1 or len(content) > 5000:
                 return render_template("error.html", message="Viestin täytyy olla 1-5000 merkkiä")
-            elif not messages.post_message(topic_id, thread_id, content):
+            elif not messages.post(topic_id, thread_id, content):
                 return render_template("error.html", message="Viestin lähetys epäonnistui")
         messagelist = messages.get_all_by_thread_with_usernames(thread_id)
         thread = threads.get_by_id(thread_id)
@@ -65,13 +65,13 @@ def thread(topic_id, thread_id):
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>/delete", methods=["POST"])
 def delete_thread(topic_id, thread_id):
-    threads.delete_thread(thread_id)
+    threads.delete(thread_id)
     messages.delete_by_thread(thread_id)
     return redirect(f"/topic/{topic_id}")
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>/message/<int:message_id>/delete", methods=["POST"])
 def delete_message(topic_id, thread_id, message_id):
-    messages.delete_message(message_id)
+    messages.delete(message_id)
     return redirect(f"/topic/{topic_id}/thread/{thread_id}")
 
 @app.route("/signup", methods=["GET", "POST"])

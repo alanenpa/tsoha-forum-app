@@ -50,7 +50,7 @@ def search_by_keyword(keyword):
     result = db.session.execute(sql, {"keyword": "%" + keyword + "%"})
     return result.fetchall()
 
-def post_message(topic_id, thread_id, content):
+def post(topic_id, thread_id, content):
     user_id = users.user_id()
     if user_id == 0:
         return False
@@ -65,7 +65,7 @@ def post_message(topic_id, thread_id, content):
     db.session.commit()
     return True
 
-def delete_message(message_id):
+def delete(message_id):
     sql = "UPDATE messages SET visible=FALSE WHERE id=:id"
     db.session.execute(sql, {"id": message_id})
     db.session.commit()

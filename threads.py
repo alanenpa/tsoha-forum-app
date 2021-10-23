@@ -14,7 +14,7 @@ def get_all_threadcounts_by_topic():
         dict[topic.topic] = count_by_topic(topic.id)
     return dict
 
-def create_thread(topic_id, header, init_msg):
+def create(topic_id, header, init_msg):
     user_id = users.user_id()
     if user_id == 0:
         return False
@@ -42,12 +42,11 @@ def search_by_keyword(keyword):
     return result.fetchall()
 
 def get_by_id(thread_id):
-    # toiminta visible-kolumnin kanssa ??
     sql = "SELECT * FROM threads WHERE id=:id"
     result = db.session.execute(sql, {"id": thread_id})
     return result.fetchone()
 
-def delete_thread(thread_id):
+def delete(thread_id):
     sql = "UPDATE threads SET visible=FALSE WHERE id=:id"
     db.session.execute(sql, {"id": thread_id})
     db.session.commit()
