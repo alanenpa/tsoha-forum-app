@@ -69,7 +69,7 @@ def delete_thread(topic_id, thread_id):
     messages.delete_by_thread(thread_id)
     return redirect(f"/topic/{topic_id}")
 
-@app.route("/topic/<int:topic_id>/thread/<int:thread_id>/edit", methods=["GET","POST"])
+@app.route("/topic/<int:topic_id>/thread/<int:thread_id>/edit", methods=["GET", "POST"])
 def edit_thread(topic_id, thread_id):
     print(threads.get_user_id(thread_id))
     if not users.user_id() == threads.get_user_id(thread_id):
@@ -94,6 +94,24 @@ def edit_thread(topic_id, thread_id):
 def delete_message(topic_id, thread_id, message_id):
     messages.delete(message_id)
     return redirect(f"/topic/{topic_id}/thread/{thread_id}")
+
+@app.route("/topic/<int:topic_id>/thread/<int:thread_id>/message/<int:message_id>/edit", methods=["GET", "POST"])
+def edit_message(topic_id, thread_id, message_id):
+    print(users.user_id(), messages.get_user_id(message_id))
+    if not users.user_id() == messages.get_user_id(message_id):
+        return render_template("error.html", message="Sinulla ei ole oikeuksia nähdä tätä sivua")
+    elif not messages.is_visible(message_id):
+        return render_template("error.html", message="Tämä viesti on poistettu")
+    else:
+        if request.method == "GET":
+            message = messages.get_by_id(message_id)
+            return render_template("edit_message.html", message=message)
+        if request.method == "POST":
+            content = request.form["content"]
+            if len(content) < 1 or len(content) > 5000:
+                return render_template("error.html", message="Viestin täytyy olla 1-5000 merkkiä")
+            messages.edit(message_id, content)
+            return redirect(f"/topic/{topic_id}/thread/{thread_id}")
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():

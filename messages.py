@@ -70,7 +70,27 @@ def delete(message_id):
     db.session.execute(sql, {"id": message_id})
     db.session.commit()
 
+def edit(message_id, content):
+    sql = "UPDATE messages SET content=:content WHERE id=:id"
+    db.session.execute(sql, {"id": message_id, "content": content})
+    db.session.commit()
+
+def is_visible(message_id):
+    sql = "SELECT visible FROM messages WHERE id=:id"
+    result = db.session.execute(sql, {"id": message_id})
+    return result.fetchone()[0]
+
 def delete_by_thread(thread_id):
     sql = "UPDATE messages SET visible=FALSE WHERE thread_id=:id"
     db.session.execute(sql, {"id": thread_id})
     db.session.commit()
+
+def get_user_id(message_id):
+    sql = "SELECT user_id FROM messages WHERE id=:id"
+    result = db.session.execute(sql, {"id": message_id})
+    return result.fetchone()[0]
+
+def get_by_id(message_id):
+    sql = "SELECT * FROM messages WHERE id=:id"
+    result = db.session.execute(sql, {"id": message_id})
+    return result.fetchone()
