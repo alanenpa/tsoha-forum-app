@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}Muokkaa ketjua{% endblock %}
 {% block content %}
-<!-- <h2>Muokkaa ketjua</h2> -->
 {% if session.user_id %}
-<form action="/topic/{{ thread.topic_id }}/thread/{{thread.id}}/edit" method="POST">
+<form action="/topic/{{thread.topic_id}}/thread/{{thread.id}}/edit" method="POST">
   <h3>Muokkaa ketjua</h3>
     Otsikko:
   <p>

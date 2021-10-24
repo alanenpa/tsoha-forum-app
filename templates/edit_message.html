@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Muokkaa viestiä{% endblock %}
 {% block content %}
-<!-- <h2>Muokkaa ketjua</h2> -->
 {% if session.user_id %}
 <form action="/topic/{{message.topic_id}}/thread/{{message.thread_id}}/message/{{message.id}}/edit" method="POST">
   <h3>Muokkaa viestiä</h3>
