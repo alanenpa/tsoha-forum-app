@@ -2,7 +2,7 @@
 {% block title %}Muokkaa viestiä{% endblock %}
 {% block content %}
 {% if session.user_id %}
-<form action="/topic/{{message.topic_id}}/thread/{{message.thread_id}}/message/{{message.id}}/edit" method="POST">
+<form class="w-75" action="/topic/{{message.topic_id}}/thread/{{message.thread_id}}/message/{{message.id}}/edit" method="POST">
   <h3>Muokkaa viestiä</h3>
   <div class="my-3">
     <label for="message_editform" class="form-label">Viesti</label>
