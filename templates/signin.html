@@ -2,20 +2,20 @@
 {% block title %}Sisäänkirjautuminen{% endblock %}
 {% block content %}
 <h1>Kirjaudu sisään</h1>
-<form action="/signin" method="POST">
-  Käyttäjätunnus:
-  <p>
-  {% if username %}
-  <input type="text" name="username" value={{ username }}>
-  {% else %}
-  <input type="text" name="username">
-  {% endif %}
-  <p>
-  Salasana:
-  <p>
-  <input type="password" name="password">
-  <p>
-  <input type="submit" value="Kirjaudu">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<form class="w-25 mt-4" action="/signin" method="POST">
+  <div class="mb-3">
+    <label for="signinform1" class="form-label">Käyttäjätunnus</label>
+    {% if username %}
+    <input type="text" class="form-control" id="signinform1" name="username" value={{ username }}>
+    {% else %}
+    <input type="text" class="form-control" id="signinform1" name="username">
+    {% endif %}
+  </div>
+  <div class="mb-3">
+    <label for="signinform2" class="form-label">Salasana</label>
+    <input class="form-control" id="signinform2" type="password" name="password"></input>
+  </div>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <input class="btn btn-primary btn" type="submit" value="Kirjaudu">
 </form>
 {% endblock %}

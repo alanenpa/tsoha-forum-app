@@ -1,32 +1,33 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<h1>Etusivu</h1>
+<h1><b>Etusivu</b></h1>
 {% if adminrights is true %}
-<form action="/" method="POST">
-  Lisää aihe:
-  <p>
-  <input type="text" name="topic">
-  <p>
-  <input type="submit" value="Lisää">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<form class="w-25 mt-4" action="/" method="POST">
+  <label for="indexform1" class="form-label">Lisää keskustelualue</label>
+  <input type="text" class="form-control" id="indexform1" name="topic">
+  <div class="my-3">
+    <input class="btn btn-primary btn-sm" type="submit" value="Lisää">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  </div>
 </form>
 {% endif %}
 <p>Keskustelualueet:</p>
 <hr>
 {% for topic in topics %}
 <p style="padding-left:8px;padding-right:8px;">
-<a href="/topic/{{ topic.id }}"><b>{{ topic.topic }}</b></a><br>
-Viestiketjuja: {{threadcounts[topic.topic]}}<br>
-Viestejä yhteensä (sis. aloitusviestit): {{messagecounts[topic.topic]}}<br>
-{% if latestmessages[topic.topic] %}
-<br>
-<i>Viimeisin vastaus:</i> {{latestmessages[topic.topic].content}}</br>
-<i>Lähettäjä:</i> {{latestmessages[topic.topic].username}}, {{latestmessages[topic.topic].sent_at.strftime("%d.%m.%Y %H:%M:%S")}} <br>
-{% else %}
-<br>
-<i>Ei vielä vastauksia tällä alueella, ole ensimmäinen!</i>
-{% endif %}
+  <a class="fs-5" href="/topic/{{ topic.id }}"><b>{{ topic.topic }}</b></a><br>
+  Viestiketjuja: {{threadcounts[topic.topic]}}<br>
+  Viestejä yhteensä (sis. aloitusviestit): {{messagecounts[topic.topic]}}<br>
+  {% if latestmessages[topic.topic] %}
+  <br>
+  <i>Viimeisin vastaus:</i> {{latestmessages[topic.topic].content}}</br>
+  <i>Lähettäjä:</i> {{latestmessages[topic.topic].username}}, {{latestmessages[topic.topic].sent_at.strftime("%d.%m.%Y
+  %H:%M:%S")}} <br>
+  {% else %}
+  <br>
+  <i>Ei vielä vastauksia tällä alueella, ole ensimmäinen!</i>
+  {% endif %}
 </p>
 <hr>
 {% endfor %}

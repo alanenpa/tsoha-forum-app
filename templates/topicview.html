@@ -1,44 +1,46 @@
 {% extends "layout.html" %}
 {% block title %}Aihenäkymä{% endblock %}
 {% block content %}
-<h2>Viestiketjut</h2>
+<h2 class="mb-3"><b>Viestiketjut</b></h2>
 {% if session.user_id %}
-<form action="/topic/{{ topic_id }}" method="POST">
-  <h3>Uusi ketju:</h3>
-    Otsikko:
-  <p>
-  <input type="text" name="header">
-  <p>
-    Aloitusviesti:
-  <p>
-  <textarea name="init_msg" rows="6" cols="50"></textarea>
-  <p>
-  <input type="submit" value="Lisää">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<form class="w-75 mt-4" action="/topic/{{ topic_id }}" method="POST">
+  <h5 class="pt-3">Aloita uusi ketju:</h5>
+  <div class="mt-3">
+    <label for="topicviewform1" class="form-label">Otsikko</label>
+    <input type="text" class="form-control" id="topicviewform1" name="header">
+  </div>
+  <div class="mt-3 mb-4">
+    <label for="topicviewform2" class="form-label">Aloitusviesti</label>
+    <textarea type="text" class="form-control" id="topicviewform2" name="init_msg" rows="6"></textarea>
+  </div>
+  <input class="btn btn-primary btn-sm" type="submit" value="Lisää">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 </form>
 {% endif %}
 <hr>
 {% for thread in threads %}
-  <a href="/topic/{{ topic_id }}/thread/{{ thread.id }}"><b style="font-size:18px;">{{ thread.header }}</b> <br></a>
-  <p>{{ thread.init_msg }}</p>
-  <p>
+<a href="/topic/{{ topic_id }}/thread/{{ thread.id }}"><b style="font-size:18px;">{{ thread.header }}</b> <br></a>
+<p>{{ thread.init_msg }}</p>
+<p>
   <i>Vastauksia:</i> {{ msgcount[loop.index0] }} <br>
   <i>Aloittaja: </i>{{ thread.username }} <br>
-  <i>Luotu:</i> {{ thread.created_at.strftime("%d.%m.%Y %H:%M:%S") }}</p>
-  <p>
-    {% if session.user_id == thread.user_id %}
-      <table>
-        <td>
-          <a href="/topic/{{ topic_id }}/thread/{{ thread.id }}/edit"><button>Muokkaa</button></a>
-        </td>
-        <td>
-          <form action="/topic/{{ topic_id }}/thread/{{ thread.id }}/delete" method="POST">
-            <input type="submit" value="Poista" />
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-          </form>
-        </td>
-      </table>
-    {% endif %}
+  <i>Luotu:</i> {{ thread.created_at.strftime("%d.%m.%Y %H:%M:%S") }}
+</p>
+<p>
+{% if session.user_id == thread.user_id %}
+<table>
+  <td>
+    <a href="/topic/{{ topic_id }}/thread/{{ thread.id }}/edit"><button
+        class="btn btn-primary btn-sm">Muokkaa</button></a>
+  </td>
+  <td>
+    <form action="/topic/{{ topic_id }}/thread/{{ thread.id }}/delete" method="POST">
+      <input class="btn btn-danger btn-sm" type="submit" value="Poista" />
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    </form>
+  </td>
+</table>
+{% endif %}
 <hr>
 {% endfor %}
 {% endblock %}

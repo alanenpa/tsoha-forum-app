@@ -2,30 +2,37 @@
 {% block title %}Käyttäjätunnuksen luonti{% endblock %}
 {% block content %}
 <h1>Luo käyttäjätunnus</h1>
-<form action="/signup" method="POST">
-  Käyttäjätunnus:
+<form class="w-25 mt-4" action="/signup" method="POST">
   <p>
-  {% if username %}
-  <input type="text" name="username" value={{ username }}>
-  {% else %}
-  <input type="text" name="username">
-  {% endif %}
+    <label for="signupform1" class="form-label">Käyttäjätunnus</label>
+    {% if username %}
+    <input type="text" class="form-control" id="signupform1" name="username" value={{ username }}>
+    {% else %}
+    <input type="text" class="form-control" id="signupform1" name="username">
+    {% endif %}
   <p>
-  Salasana:
+    <label for="signupform2" class="form-label">Salasana</label>
+    <input type="password" class="form-control" id="signupform2" name="password">
   <p>
-  <input type="password" name="password">
+    <label for="signupform3" class="form-label">Salasana uudelleen</label>
+    <input type="password" class="form-control" id="signupform3" name="password2">
   <p>
-  Salasana uudelleen:
-  <p>
-  <input type="password" name="password2">
-  <p>
-  Admin:
-  <p>
-  <input type="radio" name="admin" value="true"> kyllä
-  <input type="radio" name="admin" value="false" checked> ei
-  <p>
-    <input type="submit" value="Luo">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <label for="signupform4" class="form-label mt-2 mb-0 pb-0">Admin</label>
+  <div class="form-check" id="signupform4">
+    <input class="form-check-input" type="radio" id="flexRadioDefault1" type="radio" name="admin">
+    <label class="form-check-label" for="flexRadioDefault1">
+      Kyllä
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" id="flexRadioDefault2" name="admin" value="false" checked>
+    <label class="form-check-label" for="flexRadioDefault2">
+      Ei
+    </label>
+  </div>
+  <br>
+  <input class="btn btn-success btn" type="submit" value="Luo">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
   <p>
 </form>
 {% endblock %}

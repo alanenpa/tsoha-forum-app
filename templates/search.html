@@ -2,32 +2,35 @@
 {% block title %}Viestihaku{% endblock %}
 {% block content %}
 <h1>Hae viesteistä</h1>
-<form action="/search" method="POST">
-  Viesti tai viestin osa:
-  <p>
-  <input type="text" name="keyword">
-  <p>
-  <input type="submit" value="Hae">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<form class="w-50 mt-4" action="/search" method="POST">
+  <div class="mb-2">
+    <input  type="text" class="form-control" name="keyword" placeholder="Viesti tai viestin osa">
+  </div>
+  <input class="btn btn-primary btn-sm" type="submit" value="Hae">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 </form>
 <br>
 <h3>Aloitusviestit:</h3>
 <hr>
 {% for thread in init_messages %}
-  <p>{{ thread.init_msg }}</p>
-  <p>
-  <p><i>Lähettäjä: </i>{{ thread.username }} <br> <i>Lähetetty:</i> {{ thread.created_at.strftime("%d.%m.%Y %H:%M:%S") }}</p></p>
-  <a href="/topic/{{ thread.topic_id }}/thread/{{ thread.id }}" >Siirry ketjuun</a>
+<p>{{ thread.init_msg }}</p>
+<p>
+<p><i>Lähettäjä: </i>{{ thread.username }} <br> <i>Lähetetty:</i> {{ thread.created_at.strftime("%d.%m.%Y %H:%M:%S") }}
+</p>
+</p>
+<a href="/topic/{{ thread.topic_id }}/thread/{{ thread.id }}">Siirry ketjuun</a>
 <hr>
 {% endfor %}
 <br>
 <h3>Vastaukset:</h3>
 <hr>
 {% for message in messages %}
-  <p>{{ message.content }}</p>
-  <p>
-  <p><i>Lähettäjä: </i>{{ message.username }} <br> <i>Lähetetty:</i> {{ message.sent_at.strftime("%d.%m.%Y %H:%M:%S") }}</p></p>
-  <a href="/topic/{{ message.topic_id }}/thread/{{ message.thread_id }}" >Siirry ketjuun</a>
+<p>{{ message.content }}</p>
+<p>
+<p><i>Lähettäjä: </i>{{ message.username }} <br> <i>Lähetetty:</i> {{ message.sent_at.strftime("%d.%m.%Y %H:%M:%S") }}
+</p>
+</p>
+<a href="/topic/{{ message.topic_id }}/thread/{{ message.thread_id }}">Siirry ketjuun</a>
 <hr>
 {% endfor %}
 {% endblock %}

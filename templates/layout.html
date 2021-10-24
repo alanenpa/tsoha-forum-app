@@ -1,13 +1,38 @@
 <!doctype html>
-<title>Keskustelusovellus - {% block title %}{% endblock %}</title>
-<h1>Keskustelusovellus</h1>
-<a href="/">Etusivu</a> &nbsp;
-<a href="/search">Viestihaku</a> &nbsp;
-{% if session.user_id %}
-<a href="/signout">Kirjaudu ulos</a> &nbsp;
-{% else %}
-<a href="/signin">Kirjaudu sisään</a> &nbsp;
-<a href="/signup">Luo tunnus</a> &nbsp;
-{% endif %}
-<hr>
-{% block content %}{% endblock %}
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+</head>
+<div class="bg-light min-vh-100">
+  <title>Keskustelusovellus - {% block title %}{% endblock %}</title>
+  {% block navbar %}
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><b>Keskustelusovellus</b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active text-primary" aria-current="page" href="/">Etusivu</a>
+          <a class="nav-link active text-primary" aria-current="page" href="/search">Viestihaku</a>
+          {% if session.user_id %}
+          <a class="nav-link active text-primary" aria-current="page" href="/signout">Kirjaudu ulos</a>
+          {% else %}
+          <a class="nav-link active text-primary" aria-current="page" href="/signin">Kirjaudu sisään</a>
+          <a class="nav-link active text-primary" aria-current="page" href="/signup">Luo tunnus</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+  <hr>
+  {% endblock %}
+  <div class="container w-auto pt-3">{% block content %}{% endblock %}</div>
+</div>

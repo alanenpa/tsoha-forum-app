@@ -1,9 +1,11 @@
-Virhe: {{ message }}
-<p>
-<button onclick="go_back()">Takaisin</button>
+{% extends "layout.html" %}
+{% block content %}
+<p><b>Virhe: {{ message }}</b></p>
+<button class="btn btn-primary btn-sm" onclick="go_back()">Takaisin</button>
 
 <script>
   function go_back() {
     window.history.back();
   }
 </script>
+{% endblock %}

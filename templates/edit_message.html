@@ -4,14 +4,14 @@
 {% if session.user_id %}
 <form action="/topic/{{message.topic_id}}/thread/{{message.thread_id}}/message/{{message.id}}/edit" method="POST">
   <h3>Muokkaa viestiä</h3>
-    Viesti:
-  <p>
-  <textarea name="content" rows="6" cols="50">{{ message.content }}</textarea>
-  <p>
-  <input type="submit" value="Muokkaa">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+  <div class="my-3">
+    <label for="message_editform" class="form-label">Viesti</label>
+    <textarea class="form-control" name="content" rows="6" cols="70">{{ message.content }}</textarea>
+  </div>
+  <input class="btn btn-warning btn-sm mb-2" type="submit" value="Muokkaa">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 </form>
-<button onclick="go_back()">Peruuta</button>
+<button class="btn btn-primary btn-sm" onclick="go_back()">Peruuta</button>
 
 <script>
   function go_back() {
