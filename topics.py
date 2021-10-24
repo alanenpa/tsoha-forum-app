@@ -8,3 +8,8 @@ def create_topic(topic):
 def get_all():
     result = db.session.execute("SELECT * FROM topics")
     return result.fetchall()
+
+def exists(topic_id):
+    sql = "SELECT * FROM topics WHERE id=:id"
+    result = db.session.execute(sql, {"id": topic_id})
+    return result.fetchone()

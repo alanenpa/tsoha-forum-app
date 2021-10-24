@@ -76,9 +76,12 @@ def edit(message_id, content):
     db.session.commit()
 
 def is_visible(message_id):
-    sql = "SELECT visible FROM messages WHERE id=:id"
-    result = db.session.execute(sql, {"id": message_id})
-    return result.fetchone()[0]
+    try:
+        sql = "SELECT visible FROM messages WHERE id=:id"
+        result = db.session.execute(sql, {"id": message_id})
+        return result.fetchone()[0]
+    except:
+        return False
 
 def delete_by_thread(thread_id):
     sql = "UPDATE messages SET visible=FALSE WHERE thread_id=:id"

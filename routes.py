@@ -4,7 +4,6 @@ import users
 import topics
 import threads
 import messages
-from db import db
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -27,30 +26,33 @@ def index():
         adminrights=adminrights
     )
 
-@app.route("/topic/<int:id>", methods=["GET", "POST"])
-def topic(id):
-    if request.method == "POST":
-        header = request.form["header"]
-        if len(header) < 3 or len(header) > 300:
-            return render_template("error.html", message="Otsikon täytyy olla 3-300 merkkiä")
-        init_msg = request.form["init_msg"]
-        if len(init_msg) > 5000:
-            return render_template("error.html", message="Aloitusviesti on liian pitkä (>5000 merkkiä)")
-        if not threads.create(id, header, init_msg):
-            return render_template("error.html", message="Ketjun luonti epäonnistui")
-    threadlist = threads.get_all_by_topic(id)
-    msgcount = messages.get_all_messagecounts_by_thread(id)
-    return render_template(
-        "topicview.html",
-        topic_id=id,
-        threads=threadlist,
-        msgcount=msgcount
-    )
+@app.route("/topic/<int:topic_id>", methods=["GET", "POST"])
+def topic(topic_id):
+    if not topics.exists(topic_id):
+        return render_template("error.html", message="Keskustelualuetta ei ole olemassa tai se on poistettu")
+    else:
+        if request.method == "POST":
+            header = request.form["header"]
+            if len(header) < 3 or len(header) > 300:
+                return render_template("error.html", message="Otsikon täytyy olla 3-300 merkkiä")
+            init_msg = request.form["init_msg"]
+            if len(init_msg) > 5000:
+                return render_template("error.html", message="Aloitusviesti on liian pitkä (>5000 merkkiä)")
+            if not threads.create(topic_id, header, init_msg):
+                return render_template("error.html", message="Ketjun luonti epäonnistui")
+        threadlist = threads.get_all_by_topic(topic_id)
+        msgcount = messages.get_all_messagecounts_by_thread(topic_id)
+        return render_template(
+            "topicview.html",
+            topic_id=topic_id,
+            threads=threadlist,
+            msgcount=msgcount
+        )
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>", methods=["GET", "POST"])
 def thread(topic_id, thread_id):
     if not threads.is_visible(thread_id):
-        return render_template("error.html", message="Tämä ketju on poistettu")
+        return render_template("error.html", message="Ketjua ei ole olemassa tai se on poistettu")
     else:
         if request.method == "POST":
             content = request.form["content"]
@@ -65,17 +67,19 @@ def thread(topic_id, thread_id):
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>/delete", methods=["POST"])
 def delete_thread(topic_id, thread_id):
-    threads.delete(thread_id)
-    messages.delete_by_thread(thread_id)
-    return redirect(f"/topic/{topic_id}")
+    if not threads.is_visible(thread_id):
+        return render_template("error.html", message="Ketjua ei ole olemassa tai se on poistettu")
+    else:
+        threads.delete(thread_id)
+        messages.delete_by_thread(thread_id)
+        return redirect(f"/topic/{topic_id}")
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>/edit", methods=["GET", "POST"])
 def edit_thread(topic_id, thread_id):
-    print(threads.get_user_id(thread_id))
-    if not users.user_id() == threads.get_user_id(thread_id):
+    if not threads.is_visible(thread_id):
+        return render_template("error.html", message="Ketjua ei ole olemassa tai se on poistettu")
+    elif not users.user_id() == threads.get_user_id(thread_id):
         return render_template("error.html", message="Sinulla ei ole oikeuksia nähdä tätä sivua")
-    elif not threads.is_visible(thread_id):
-        return render_template("error.html", message="Tämä ketju on poistettu")
     else:
         if request.method == "GET":
             thread = threads.get_by_id(thread_id)
@@ -92,16 +96,18 @@ def edit_thread(topic_id, thread_id):
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>/message/<int:message_id>/delete", methods=["POST"])
 def delete_message(topic_id, thread_id, message_id):
-    messages.delete(message_id)
-    return redirect(f"/topic/{topic_id}/thread/{thread_id}")
+    if not messages.is_visible(message_id):
+        return render_template("error.html", message="Viestiä ei ole olemassa tai se on poistettu")
+    else:
+        messages.delete(message_id)
+        return redirect(f"/topic/{topic_id}/thread/{thread_id}")
 
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>/message/<int:message_id>/edit", methods=["GET", "POST"])
 def edit_message(topic_id, thread_id, message_id):
-    print(users.user_id(), messages.get_user_id(message_id))
-    if not users.user_id() == messages.get_user_id(message_id):
+    if not messages.is_visible(message_id):
+        return render_template("error.html", message="Viestiä ei ole olemassa tai se on poistettu")
+    elif not users.user_id() == messages.get_user_id(message_id):
         return render_template("error.html", message="Sinulla ei ole oikeuksia nähdä tätä sivua")
-    elif not messages.is_visible(message_id):
-        return render_template("error.html", message="Tämä viesti on poistettu")
     else:
         if request.method == "GET":
             message = messages.get_by_id(message_id)

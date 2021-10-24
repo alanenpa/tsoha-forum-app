@@ -62,6 +62,9 @@ def edit(thread_id, header, init_msg):
     db.session.commit()
 
 def is_visible(thread_id):
-    sql = "SELECT visible FROM threads WHERE id=:id"
-    result = db.session.execute(sql, {"id": thread_id})
-    return result.fetchone()[0]
+    try:
+        sql = "SELECT visible FROM threads WHERE id=:id"
+        result = db.session.execute(sql, {"id": thread_id})
+        return result.fetchone()[0]
+    except:
+        return False
