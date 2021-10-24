@@ -19,7 +19,7 @@
 {% endif %}
 <hr>
 {% for thread in threads %}
-<a href="/topic/{{ topic_id }}/thread/{{ thread.id }}"><b style="font-size:18px;">{{ thread.header }}</b> <br></a>
+<a class="text-info" href="/topic/{{ topic_id }}/thread/{{ thread.id }}"><b style="font-size:18px;">{{ thread.header }}</b> <br></a>
 <p>{{ thread.init_msg }}</p>
 <p>
   <i>Vastauksia:</i> {{ msgcount[loop.index0] }} <br>
