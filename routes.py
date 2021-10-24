@@ -69,6 +69,27 @@ def delete_thread(topic_id, thread_id):
     messages.delete_by_thread(thread_id)
     return redirect(f"/topic/{topic_id}")
 
+@app.route("/topic/<int:topic_id>/thread/<int:thread_id>/edit", methods=["GET","POST"])
+def edit_thread(topic_id, thread_id):
+    print(threads.get_user_id(thread_id))
+    if not users.user_id() == threads.get_user_id(thread_id):
+        return render_template("error.html", message="Sinulla ei ole oikeuksia nähdä tätä sivua")
+    elif not threads.is_visible(thread_id):
+        return render_template("error.html", message="Tämä ketju on poistettu")
+    else:
+        if request.method == "GET":
+            thread = threads.get_by_id(thread_id)
+            return render_template("edit_thread.html", thread=thread)
+        if request.method == "POST":
+            header = request.form["header"]
+            if len(header) < 3 or len(header) > 300:
+                return render_template("error.html", message="Otsikon täytyy olla 3-300 merkkiä")
+            init_msg = request.form["init_msg"]
+            if len(init_msg) > 5000:
+                return render_template("error.html", message="Aloitusviesti on liian pitkä (>5000 merkkiä)")
+            threads.edit(thread_id, header, init_msg)
+            return redirect(f"/topic/{topic_id}")
+
 @app.route("/topic/<int:topic_id>/thread/<int:thread_id>/message/<int:message_id>/delete", methods=["POST"])
 def delete_message(topic_id, thread_id, message_id):
     messages.delete(message_id)

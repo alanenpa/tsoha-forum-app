@@ -46,9 +46,19 @@ def get_by_id(thread_id):
     result = db.session.execute(sql, {"id": thread_id})
     return result.fetchone()
 
+def get_user_id(thread_id):
+    sql = "SELECT user_id FROM threads WHERE id=:id"
+    result = db.session.execute(sql, {"id": thread_id})
+    return result.fetchone()[0]
+
 def delete(thread_id):
     sql = "UPDATE threads SET visible=FALSE WHERE id=:id"
     db.session.execute(sql, {"id": thread_id})
+    db.session.commit()
+
+def edit(thread_id, header, init_msg):
+    sql = "UPDATE threads SET header=:header, init_msg=:init_msg WHERE id=:id"
+    db.session.execute(sql, {"id": thread_id, "header": header, "init_msg": init_msg})
     db.session.commit()
 
 def is_visible(thread_id):

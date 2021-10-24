@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Muokkaa ketjua{% endblock %}
+{% block content %}
+<!-- <h2>Muokkaa ketjua</h2> -->
+{% if session.user_id %}
+<form action="/topic/{{ thread.topic_id }}/thread/{{thread.id}}/edit" method="POST">
+  <h3>Muokkaa ketjua</h3>
+    Otsikko:
+  <p>
+  {{ thread.header }}
+  <input type="text" name="header" value="{{ thread.header }}">
+  <p>
+    Aloitusviesti:
+  <p>
+  <textarea name="init_msg" rows="6" cols="50">{{ thread.init_msg }}</textarea>
+  <p>
+  <input type="submit" value="Muokkaa">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+</form>
+<button onclick="go_back()">Peruuta</button>
+
+<script>
+  function go_back() {
+    window.history.back();
+  }
+</script>
+{% endif %}
+{% endblock %}

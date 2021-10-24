@@ -27,10 +27,17 @@
   <i>Luotu:</i> {{ thread.created_at.strftime("%d.%m.%Y %H:%M:%S") }}</p>
   <p>
     {% if session.user_id == thread.user_id %}
-      <form action="/topic/{{ topic_id }}/thread/{{ thread.id }}/delete" method="POST">
-        <input type="submit" value="Poista" />
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-      </form>
+      <table>
+        <td>
+          <a href="/topic/{{ topic_id }}/thread/{{ thread.id }}/edit"><button>Muokkaa</button></a>
+        </td>
+        <td>
+          <form action="/topic/{{ topic_id }}/thread/{{ thread.id }}/delete" method="POST">
+            <input type="submit" value="Poista" />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          </form>
+        </td>
+      </table>
     {% endif %}
 <hr>
 {% endfor %}
